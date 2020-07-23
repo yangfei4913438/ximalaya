@@ -73,7 +73,8 @@ class Album extends React.Component<IProps> {
     getAlbum(route.params.item.id);
     // 设置路由参数，主要是设置顶部标题的透明度。实现上拉透明渐变成不透明的效果。
     navigation.setParams({
-      opacity: this.translatrionY.interpolate({
+      // 这里使用的变量是 translateY 总偏移量！
+      opacity: this.translateY.interpolate({
         // 这里也是用到了插值动画的特性，因为参数都是不变的，所以写在这里是没问题的。
         inputRange: this.RANGE, // 不变的值
         outputRange: [1, 0], // 不变的值
