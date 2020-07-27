@@ -16,6 +16,7 @@ buildscript {
         maven { url 'https://maven.aliyun.com/repository/grails-core' }
         maven { url 'https://maven.aliyun.com/repository/central' }
         maven { url 'https://maven.aliyun.com/repository/grails-core' }
+        maven { url 'https://jitpack.io' }
     }
     dependencies {
         classpath('com.android.tools.build:gradle:4.0.1')
@@ -43,5 +44,6 @@ allprojects {
         maven { url 'https://maven.aliyun.com/repository/grails-core' }
         maven { url 'https://maven.aliyun.com/repository/central' }
         maven { url 'https://maven.aliyun.com/repository/grails-core' }
+        maven { url 'https://www.jitpack.io' }
     }
 }

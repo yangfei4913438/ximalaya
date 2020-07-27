@@ -4,6 +4,7 @@ import Introduction from './Introduction';
 import List from './List';
 import { StyleSheet, Platform, NativeSyntheticEvent, NativeScrollEvent } from 'react-native';
 import { PanGestureHandler, TapGestureHandler, NativeViewGestureHandler } from 'react-native-gesture-handler';
+import { IProgram } from '@/store/types';
 
 interface IRoute {
   key: string;
@@ -20,6 +21,7 @@ export interface ITabProps {
   tapRef: React.RefObject<TapGestureHandler>;
   nativeRef: React.RefObject<NativeViewGestureHandler>;
   onScrollDrag: (event: NativeSyntheticEvent<NativeScrollEvent>) => void;
+  onItemPress: (data: IProgram, index: number) => void;
 }
 
 class Tab extends React.Component<ITabProps, IState> {
@@ -39,12 +41,12 @@ class Tab extends React.Component<ITabProps, IState> {
   };
 
   renderScene = ({ route }: { route: IRoute }) => {
-    const { panRef, tapRef, nativeRef, onScrollDrag } = this.props;
+    const { panRef, tapRef, nativeRef, onScrollDrag, onItemPress } = this.props;
     switch (route.key) {
       case 'introduction':
         return <Introduction />;
       case 'albums':
-        return <List panRef={panRef} tapRef={tapRef} nativeRef={nativeRef} onScrollDrag={onScrollDrag} />;
+        return <List panRef={panRef} tapRef={tapRef} nativeRef={nativeRef} onScrollDrag={onScrollDrag} onItemPress={onItemPress} />;
     }
   };
 
@@ -57,9 +59,9 @@ class Tab extends React.Component<ITabProps, IState> {
     return (
       <TabView
         navigationState={this.state} // 标签配置
-        onIndexChange={this.onIndexChange}
-        renderScene={this.renderScene}
-        renderTabBar={this.renderTabBar}
+        onIndexChange={this.onIndexChange} // 索引改变
+        renderScene={this.renderScene} // 标签内容的渲染
+        renderTabBar={this.renderTabBar} // 标签渲染
       />
     );
   }

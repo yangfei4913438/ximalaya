@@ -2,6 +2,8 @@ import React from 'react';
 import { createMaterialTopTabNavigator, MaterialTopTabBarProps } from '@react-navigation/material-top-tabs';
 import Home from '@/pages/Home';
 import TopTabBarWrapper from '@/pages/views/TopTabBarWrapper';
+// 适配器
+import ViewPagerAdapter from 'react-native-tab-view-viewpager-adapter';
 import { connect, ConnectedProps } from 'react-redux';
 import { RootState } from '@/store/reducer';
 import { ICategory } from '@/store/types';
@@ -42,6 +44,7 @@ class HomeTabs extends React.PureComponent<IProps> {
         lazy // 懒加载开启，只有使用的标签才会被加载
         sceneContainerStyle={styles.sceneContainerStyle} // 设置背景色为透明的，这样就可以有渐变色了。
         tabBar={this.tabBar} // 顶部标签导航器
+        pager={(props) => <ViewPagerAdapter {...props} />} // 使用原生的方式渲染标签的页面，交互更友好。
         tabBarOptions={{
           scrollEnabled: true, // 开启标签栏滚动，支持更多标签
           tabStyle: {

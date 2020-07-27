@@ -7,13 +7,13 @@ import IconFont from '@/assets/iconfont';
 interface IProps {
   data: IProgram;
   index: number;
-  onPress: (data: IProgram) => void;
+  onPress: (data: IProgram, index: number) => void;
 }
 
-class Item extends React.Component<IProps> {
+class Item extends React.PureComponent<IProps> {
   onPress = () => {
-    const { data, onPress } = this.props;
-    onPress(data);
+    const { data, index, onPress } = this.props;
+    onPress(data, index);
   };
 
   render() {

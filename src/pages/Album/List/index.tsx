@@ -18,14 +18,15 @@ const connector = connect(mapStateToProps);
 
 interface IProps extends ConnectedProps<typeof connector> {}
 
-class List extends React.Component<IProps & ITabProps> {
+class List extends React.PureComponent<IProps & ITabProps> {
   keyExtractor = (item: IProgram) => {
     return item.id;
   };
 
-  onPress = (data: IProgram) => {
-    // alert(data.title);
-    console.log(data.title);
+  onPress = (data: IProgram, index: number) => {
+    const { onItemPress } = this.props;
+    console.log(data.title, index);
+    onItemPress(data, index);
   };
 
   renderItem = ({ item, index }: ListRenderItemInfo<IProgram>) => {

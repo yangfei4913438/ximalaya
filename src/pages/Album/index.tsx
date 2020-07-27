@@ -6,11 +6,12 @@ import { connect, ConnectedProps } from 'react-redux';
 import { RootState } from '@/store/reducer';
 import { albumActions } from '@/store/album';
 import { RouteProp } from '@react-navigation/native';
-import { RootStackParamList, RootStackNavigation } from '@/navigator';
+import { RootStackParamList, ModalStackNavigation } from '@/navigator';
 import coverRight from '@/assets/cover-right.png';
 import Tab from './Tab';
 import { PanGestureHandler, PanGestureHandlerStateChangeEvent, State, TapGestureHandler, NativeViewGestureHandler } from 'react-native-gesture-handler';
 import { viewportHeight } from '@/utils';
+import { IProgram } from '@/store/types';
 
 const mapStateToProps = ({ album }: RootState) => {
   return {
@@ -31,7 +32,7 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 interface IProps extends ConnectedProps<typeof connector> {
   headerHeight: number;
   route: RouteProp<RootStackParamList, 'Album'>; // 第一个是所有的参数， 第二个是页面的名字
-  navigation: RootStackNavigation;
+  navigation: ModalStackNavigation;
 }
 
 // 使用原生动画渲染
@@ -39,7 +40,7 @@ const USE_NATIVE_DRIVER = true;
 // 头部信息的高度
 const HEADER_HEIGHT = 260;
 
-class Album extends React.Component<IProps> {
+class Album extends React.PureComponent<IProps> {
   // 向上滚动后，列表有多少距离，是串上去被遮挡住的。
   lastScrollY = new Animated.Value(0);
   // 上次每次滚动的值，保存起来。
@@ -90,10 +91,19 @@ class Album extends React.Component<IProps> {
     },
   });
 
+  onItemPress = (data: IProgram, index: number) => {
+    //
+    const { navigation } = this.props;
+    navigation.navigate('Detail');
+  };
+
   renderHeader = () => {
     const { headerHeight, route, summary, author } = this.props;
     const { title, image } = route.params.item;
     console.log('author:', author, image);
+    if (!author.avatar) {
+      return;
+    }
     return (
       <View style={[styles.header, { paddingTop: headerHeight }]}>
         <Image source={{ uri: image }} style={styles.backgorund} />
@@ -219,7 +229,7 @@ class Album extends React.Component<IProps> {
               {this.renderHeader()}
               {/* 设置动态高度，保证拖动的时候，下面不留白出来 */}
               <View style={{ height: viewportHeight - this.props.headerHeight }}>
-                <Tab panRef={this.panRef} tapRef={this.tapRef} nativeRef={this.nativeRef} onScrollDrag={this.onScrollDrag} />
+                <Tab panRef={this.panRef} tapRef={this.tapRef} nativeRef={this.nativeRef} onScrollDrag={this.onScrollDrag} onItemPress={this.onItemPress} />
               </View>
             </Animated.View>
           </PanGestureHandler>
